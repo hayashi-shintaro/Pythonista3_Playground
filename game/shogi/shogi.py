@@ -1,4 +1,6 @@
 from scene import *
+from PIL import Image
+import ui, io
 
 class shogi (Scene):
 	def setup(self):
@@ -7,7 +9,14 @@ class shogi (Scene):
 		tile = SpriteNode('plc:Wood_Block', position = (70, 1000))
 		self.shogi_board.add_child(tile)
 		
-		self.test_module = SpriteNode('iob:social_apple_outline_256', z_position = 1)
+		hu = Image.open('hu.JPG')
+		hu = hu.resize((100, 100))
+		with io.BytesIO() as f:
+			hu.save(f, format='png')
+			hu = ui.Image.from_data(f.getvalue())
+		texture = Texture(hu)
+		
+		self.test_module = SpriteNode(texture, z_position = 1)
 		self.test_module.position = (70, 1000)
 		self.shogi_board.add_child(self.test_module)
 		self.test_module.previous_position = self.test_module.position
