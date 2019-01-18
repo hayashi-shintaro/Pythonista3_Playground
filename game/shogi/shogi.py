@@ -44,28 +44,16 @@ class shogi (Scene):
 		
 		#add all pieces
 		hu2 = original_image2Texture('hu.PNG', piece_size, piece_size)
-		new_hu = piece(hu2, square_size * 8.5, square_size * 8.5)
-		self.rootNode.add_child(new_hu)
+		self.new_hu = piece(hu2, square_size * 8.5, square_size * 8.5)
+		self.rootNode.add_child(self.new_hu)
 		
-		#hu = Image.open('hu.PNG')
-		#hu = hu.resize((int(square_size * 0.9), int(square_size * 0.9)))
-		#hu = convert_PILImage2Texture(hu)
-		#self.test_module = SpriteNode(hu, z_position = 1)
-		#self.test_module.position = \
-		#	coordinate_on_board(square_size * 2.5, 
-		#										  square_size * 2.5)
-		#self.rootNode.add_child(self.test_module)
-		#self.test_module.previous_position = self.test_module.position
+		kyosya = original_image2Texture('kyosya.PNG', piece_size, piece_size)
+		self.kyosya = piece(kyosya, square_size * 6.5, square_size * 3.5)
+		self.rootNode.add_child(self.kyosya)
 		
-		#後で消す
-		#hu2 = piece(hu, square_size * 2.5, square_size * 8.5)
-		#self.rootNode.add_child(hu2)
-		#hu3 = piece(hu, square_size * 1.5, square_size * 4.5)
-		#self.rootNode.add_child(hu3)
-		#hu4 = piece(hu, square_size * 6.5, square_size * 2.5)
-		#self.rootNode.add_child(hu4)
-		#hu5 = piece(hu, square_size * 3.5, square_size * 7.5)
-		#self.rootNode.add_child(hu5)
+		oshou = original_image2Texture('oshou.PNG', piece_size, piece_size)
+		self.oshou = piece(oshou, square_size * 4.5, square_size * 0.5)
+		self.rootNode.add_child(self.oshou)
 		
 	def touch_began(self, touch):
 		x, y = touch.location
@@ -73,21 +61,22 @@ class shogi (Scene):
 	def touch_moved(self, touch):
 		x, y = touch.location
 		move_action = Action.move_to(x, y, 0.1, TIMING_BOUNCE_OUT)
-		self.test_module.run_action(move_action)
+		self.new_hu.run_action(move_action)
 		
 	def touch_ended(self, touch):
 		x, y = touch.location
 		if x < 300:
-			x, y = self.test_module.previous_position
+			x, y = self.new_hu.previous_position
 			move_action = Action.move_to(x, y, 0.1, TIMING_BOUNCE_OUT)
-			self.test_module.run_action(move_action)
+			self.new_hu.run_action(move_action)
 		else:
-			self.test_module.previous_position = x, y
+			self.new_hu.previous_position = x, y
 						
 class piece (SpriteNode):
 	def __init__(self, img, x, y, ):
 		SpriteNode.__init__(self, img)
 		self.position = coordinate_on_board(x, y)
+		self.previous_position = x, y
 	
 if __name__ == '__main__':
 	run(shogi(), PORTRAIT, show_fps = True)
