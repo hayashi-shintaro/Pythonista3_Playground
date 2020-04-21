@@ -161,6 +161,8 @@ for row in range(9):
 		squares.update({str(row + 1) +  ',' + str(column + 1):
 			         coordinate_on_board(square_size * (row + 0.5),
 																   square_size * (column + 0.5))})
+																   
+#テスト
 
 if __name__ == '__main__':
 	run(shogi(), PORTRAIT, show_fps = True)
